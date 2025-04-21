@@ -53,7 +53,11 @@ on property:init.svc.zygote=restarting
 on property:init.svc.zygote=stopped
     exec u:r:su:s0 root root -- /sbin/magisk --auto-selinux --zygote-restart
     """.format(arch=machine[1])
-
+    
+    def __init__(self):
+        super().__init__()
+        self.work_dir = "./"
+    
     def download(self):
         print_color("Downloading latest Magisk-Delta now .....", bcolors.GREEN)
         super().download()   
