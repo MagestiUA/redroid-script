@@ -42,7 +42,7 @@ class General:
     
     def install_custom_modules(self):
         mod_dir = Path("custom_modules")
-        target = Path(self.work_dir) / "magisk" / "modules"
+        target = Path("magisk/modules/") / "magisk" / "modules"
         
         if not mod_dir.exists():
             print_color("No custom modules found", bcolors.WARNING)
