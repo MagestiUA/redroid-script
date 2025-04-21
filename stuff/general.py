@@ -3,10 +3,17 @@
 import os
 import zipfile
 import hashlib
+from pathlib import Path
+import subprocess
+import tempfile
+import shutil
+
 
 from tools.helper import bcolors, download_file, print_color
 
 class General:
+    
+    
     def download(self):
         loc_md5 = ""
         if os.path.isfile(self.dl_file_name):
@@ -32,3 +39,19 @@ class General:
         self.download()
         self.extract()
         self.copy()
+    
+    def install_custom_modules(self):
+        mod_dir = Path("custom_modules")
+        target = Path(self.work_dir) / "magisk" / "modules"
+        
+        if not mod_dir.exists():
+            print_color("No custom modules found", bcolors.WARNING)
+            return
+        
+        target.mkdir(parents=True, exist_ok=True)
+        
+        for mod in mod_dir.glob("*.zip"):
+            print_color(f"Installing custom module: {mod.name}", bcolors.OKBLUE)
+            with tempfile.TemporaryDirectory() as tmp:
+                subprocess.run(["unzip", "-q", str(mod), "-d", tmp], check=True)
+                shutil.copytree(tmp, target / mod.stem, dirs_exist_ok=True)

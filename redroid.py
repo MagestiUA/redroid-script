@@ -98,7 +98,9 @@ def main():
             helper.print_color(
                 "WARNING: Houdini seems to work only above redroid:11.0.0", helper.bcolors.YELLOW)
     if args.magisk:
-        Magisk().install()
+        magisk = Magisk()
+        magisk.install()
+        magisk.install_custom_modules()
         dockerfile = dockerfile+"COPY magisk /\n"
         tags.append("magisk")
     if args.widevine:
